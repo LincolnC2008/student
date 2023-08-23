@@ -16,3 +16,4 @@ This is my blog for AP Computer Scinece Principles
 - I have many hobbies but 1 hobby that is very important to me is fishing, I have gone fishing since I was 7 with my dad, and it is still something I like to do every summer.
 - I have 2 sisters named Brooklyn and Zuzu, a mom named Cindy, and a dad named Jason. that is who the people in my picture are. We are all Chriastain which is where the cross comes from.
 - Another hobby I have is gaming, I put that on there because it is also something I like to do with my sisters.
+![](<images/IMG-2487.jpg>)
