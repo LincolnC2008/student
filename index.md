@@ -19,10 +19,10 @@ This is my blog for AP Computer Scinece Principles
 ![](<images/IMG-2487.jpg>)
 
 
-- I have a picture of me and my dad going fishing,  and on this day we caught a fish over 200lbs!
+## I have a picture of me and my dad going fishing,  and on this day we caught a fish over 200lbs!
 
 ![](<images/IMG_1500.jpg>)
 
 ## This is a video I used to help me with coding
 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=uuNbZ79SkEo" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=wjbbl0TTMeo" frameborder="0" allowfullscreen></iframe>
