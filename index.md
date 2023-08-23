@@ -17,3 +17,8 @@ This is my blog for AP Computer Scinece Principles
 - I have 2 sisters named Brooklyn and Zuzu, a mom named Cindy, and a dad named Jason. that is who the people in my picture are. We are all Chriastain which is where the cross comes from.
 - Another hobby I have is gaming, I put that on there because it is also something I like to do with my sisters.
 ![](<images/IMG-2487.jpg>)
+
+
+- I have a picture of me and my dad going fishing,  and on this day we caught a fish over 200lbs!
+
+![](<images/IMG_1500.jpg>)
