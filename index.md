@@ -25,4 +25,4 @@ This is my blog for AP Computer Scinece Principles
 
 ## This is a video I used to help me with coding
 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=wjbbl0TTMeo" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wjbbl0TTMeo?si=MalJ3n6NTdqmUz9h" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
