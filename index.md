@@ -31,7 +31,7 @@ This is my blog for AP Computer Scinece Principles
 I had encountered problems at the very start and a major problem being how I had not installed WSL Ubuuntu properly, WSL kept showing up with "root" so as a result I had to restart everything and reinstall the whole thing again. I am not certain, but I think the problem was when I made my username as I put the wrong one so I tried uninstalling, but I did not uninstall all the way so I looked up videos for help over the weekend until I eventually got it working.
 
 ## A calculator I found
-![credit] (<https://www.javatpoint.com/html-calculator>)  
+[credit] (https://www.javatpoint.com/html-calculator)  
 <html>  
     <head>  
     <meta charset="utf-8">  
