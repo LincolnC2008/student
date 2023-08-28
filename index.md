@@ -220,3 +220,5 @@ credit: https://www.studytonight.com/post/snake-game-in-html-and-javascript#:~:t
     </script>
   </body>
 </html>
+
+x
