@@ -32,137 +32,191 @@ I had encountered problems at the very start and a major problem being how I had
 
 <body style="width=100px;border:1px solid red;">
 
-Cookie Clicker
-Credit: https://github.com/coderdojoindy/cookie-clicker/blob/master/index.html
+Snake Game
+credit: https://www.studytonight.com/post/snake-game-in-html-and-javascript#:~:text=Following%20is%20the%20HTML%20code%20where%20we%20have,class%3D%22game-info%22%3E%20%3Ch2%3ESnake%20Game%3C%2Fh2%3E%20%3Cp%20id%3D%22game-status%22%3E%3C%2Fp%3E%20%3Cp%20id%3D%22game-score%22%3E%3C%2Fp%3E%20%3C%2Fdiv%3E
 <!DOCTYPE html>
-<html>
-<head>
-<title>Cookie Clicker</title>
-<!--
-Code and graphics copyright Orteil, 2013
-Feel free to alter this code to your liking, but please do not re-host it, do not profit from it and do not present it as your own.
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Snake Game using HTML and Javascript - Studytonight</title>
+    <style>
+        .game-box {
+            text-align:center;   
+        }
+        .game-info {
+            text-align:center; 
+            font-family:arial;
+            line-height:24px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="game-box"><canvas id="canvas" width="400" height="400"></canvas></div>
+    <div class="game-info">
+        <h2>Snake Game</h2>
+        <p id="game-status"></p>
+        <p id="game-score"></p>
+    </div>
 
--TODO :
-	-milk toys
-	-temple building
-	-dungeons
-	-gambling
-	-better tooltips
-	-better prestige
-	-add canvas support
-	-timer bars for golden cookie effects
-	-set event listeners instead of onclick
-	-more zebras
--->
-
-<link rel="shortcut icon" href="img/favicon.ico" />
-<link href="http://fonts.googleapis.com/css?family=Kavoon&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-<link href="style.css?v=1.5028" rel="stylesheet" type="text/css">
-
-<script src="base64.js"></script>
-<script src="ajax.js"></script>
-<script src="dungeons.js?v=1.5026"></script>
-<script src="main.js?v=1.5031"></script>
+    <script>
+      var canvas, ctx, gameControl, gameActive;
+      // render X times per second
+      var x = 8;
+      
+      const CANVAS_BORDER_COLOUR = 'black';
+      const CANVAS_BACKGROUND_COLOUR = "white";
+      const SNAKE_COLOUR = 'lightgreen';
+      const SNAKE_BORDER_COLOUR = 'darkgreen';
 
 
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-29324474-2']);
-  _gaq.push(['_setDomainName', 'dashnet.org']);
-  _gaq.push(['_trackPageview']);
+      window.onload = function() {
+        canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d");
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
+        document.addEventListener("keydown", keyDownEvent);
 
-</head>
-<body>
+        gameControl = startGame(x);
+      };
+      
+      /* function to start the game */
+      function startGame(x) {
+          // setting gameActive flag to true
+          gameActive = true;
+          document.getElementById("game-status").innerHTML = "<small>Game Started</small>";
+          document.getElementById("game-score").innerHTML = "";
+          return setInterval(draw, 1000 / x);
+      }
+      
+      function pauseGame() {
+          // setting gameActive flag to false
+          clearInterval(gameControl);
+          gameActive = false;
+          document.getElementById("game-status").innerHTML = "<small>Game Paused</small>";
+      }
+      
+      function endGame(x) {
+          // setting gameActive flag to false
+          clearInterval(gameControl);
+          gameActive = false;
+          document.getElementById("game-status").innerHTML = "<small>Game Over</small>";
+          document.getElementById("game-score").innerHTML = "<h1>Score: " + x + "</h1>";
+      }
 
-<div id="topBar">
-	<div>
-		<b>Cookie Clicker</b> &copy; <a href="http://orteil.dashnet.org" target="_blank">Orteil</a>, 2013 - hosted by <a href="http://dashnet.org" target="_blank">DashNet</a> | <a href="http://twitter.com/orteil42" target="_blank">twitter</a> | <a href="http://orteil42.tumblr.com" target="_blank">tumblr</a> | Help? Bugs? Ideas? Check out the <a href="http://forum.dashnet.org" target="_blank">forum</a>! | Chat with us on <a href="http://forum.dashnet.org/discussion/277/irc-chat-channel/p1" target="_blank">IRC</a> | Getting a black screen? Try pressing ctrl-F5!
-		<div id="links" style="display:block;position:absolute;right:8px;top:4px;"></div>
-	</div>
-</div>
+      // game world
+      var gridSize = (tileSize = 20); // 20 x 20 = 400
+      var nextX = (nextY = 0);
 
-<div id="game">
-	<div id="javascriptError">
-		<div style="padding:64px 128px;">
-			<div class="title">Oops, looks like the game isn't loading right!</div>
-			<div>Please make sure your javascript is enabled, then refresh.<br>
-			This could also be caused by a problem on our side, in which case - wait a moment, then refresh!</div>
-		</div>
-	</div>
+      // snake
+      var defaultTailSize = 3;
+      var tailSize = defaultTailSize;
+      var snakeTrail = [];
+      var snakeX = (snakeY = 10);
 
-	<div id="backgroundLayers">
-		<div id="backgroundLayer1"></div>
-		<div id="backgroundLayer2"></div>
-	</div>
-	
-	<div id="goldenCookie" class="goldenCookie"></div>
-	<div id="alert"></div>
-	<div id="particles"></div>
-	<div id="versionNumber" class="title"></div>
-	
-	<div id="sectionLeft" class="inset">
-		<div id="cookieShower"></div>
-		<div class="blackGradient"></div>
-		<div class="blackFiller"></div>
-		<div id="sectionLeftInfo"></div>
-		<div id="cookies" class="title"></div>
-		<div id="cookieAnchor">
-			<div id="cookieShine"></div>
-			<div id="cookieCursors"></div>
-			<div id="bigCookie"></div>
-			<div id="cookieNumbers"></div>
-		</div>
-		<div id="milk">
-			<div id="milkLayer1" class="milkLayer"></div>
-			<div id="milkLayer2" class="milkLayer"></div>
-		</div>
-	</div>
+      // apple
+      var appleX = (appleY = 15);
 
-	<div class="separatorLeft"></div>
-	<div class="separatorRight"></div>
-		
-	<div id="sectionMiddle" class="inset">
-		<div id="comments" class="inset title">
-			<div id="prefsButton" class="button">Menu</div>
-			<div id="statsButton" class="button">Stats</div>
-			<div id="logButton" class="button" style="font-size:80%;">Updates</div>
-			<div id="commentsText"></div>
-			<div class="separatorBottom"></div>
-		</div>
-		<div id="rows"></div>
-		<div id="menu"></div>
-	</div>
+      // draw
+      function draw() {
+        // move snake in next pos
+        snakeX += nextX;
+        snakeY += nextY;
 
-	<div id="sectionRight" class="inset">
-		<div id="store">
-			<div id="storeTitle" class="inset title">Store</div>
-			<div id="upgrades">
-			</div>
-			<div id="products">
-			</div>
-		</div>
-		
-		<div id="support">
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate" style="margin:0px 16px;">
-			<div id="supportComment">Help us make more games!</div>
-			<input type="hidden" name="cmd" value="_s-xclick">
-			<input type="hidden" name="hosted_button_id" value="BBN2WL3TC6QH4">
-			<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal — The safer, easier way to pay online.">
-			<img alt="" border="0" src="https://www.paypalobjects.com/nl_NL/i/scr/pixel.gif" width="1" height="1">
-			</form>			
-		</div>
-	</div>
-	
-	<div id="tooltipAnchor"><div id="tooltip" onMouseOut="Game.tooltip.hide();"></div></div>
+        // snake over game world?
+        if (snakeX < 0) {
+          snakeX = gridSize - 1;
+        }
+        if (snakeX > gridSize - 1) {
+          snakeX = 0;
+        }
 
-</div>
+        if (snakeY < 0) {
+          snakeY = gridSize - 1;
+        }
+        if (snakeY > gridSize - 1) {
+          snakeY = 0;
+        }
 
-</body>
+        //snake bite apple?
+        if (snakeX == appleX && snakeY == appleY) {
+          tailSize++;
+
+          appleX = Math.floor(Math.random() * gridSize);
+          appleY = Math.floor(Math.random() * gridSize);
+        }
+
+        //  Select the colour to fill the canvas
+      ctx.fillStyle = CANVAS_BACKGROUND_COLOUR;
+      //  Select the colour for the border of the canvas
+      ctx.strokestyle = CANVAS_BORDER_COLOUR;
+
+      // Draw a "filled" rectangle to cover the entire canvas
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Draw a "border" around the entire canvas
+      ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+        // paint snake
+        ctx.fillStyle = SNAKE_COLOUR;
+        ctx.strokestyle = SNAKE_BORDER_COLOUR;
+        for (var i = 0; i < snakeTrail.length; i++) {
+          ctx.fillRect(
+            snakeTrail[i].x * tileSize,
+            snakeTrail[i].y * tileSize,
+            tileSize,
+            tileSize
+          );
+          
+          ctx.strokeRect(snakeTrail[i].x * tileSize , snakeTrail[i].y* tileSize, tileSize, tileSize);
+
+          //snake bites it's tail?
+          if (snakeTrail[i].x == snakeX && snakeTrail[i].y == snakeY) {
+            if(tailSize > 3) {
+                endGame(tailSize);
+            }
+            tailSize = defaultTailSize;  
+          }
+        }
+
+        // paint apple
+        ctx.fillStyle = "red";
+        ctx.fillRect(appleX * tileSize, appleY * tileSize, tileSize, tileSize);
+
+        //set snake trail
+        snakeTrail.push({ x: snakeX, y: snakeY });
+        while (snakeTrail.length > tailSize) {
+          snakeTrail.shift();
+        }
+      }
+
+      // input
+      function keyDownEvent(e) {
+        switch (e.keyCode) {
+          case 37:
+            nextX = -1;
+            nextY = 0;
+            break;
+          case 38:
+            nextX = 0;
+            nextY = -1;
+            break;
+          case 39:
+            nextX = 1;
+            nextY = 0;
+            break;
+          case 40:
+            nextX = 0;
+            nextY = 1;
+            break;
+          case 32:
+            if(gameActive == true) {
+                pauseGame();
+            }
+            else {
+                gameControl = startGame(x);
+            }
+            break;
+        }
+      }
+    </script>
+  </body>
 </html>
