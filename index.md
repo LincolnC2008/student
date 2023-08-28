@@ -32,226 +32,137 @@ I had encountered problems at the very start and a major problem being how I had
 
 <body style="width=100px;border:1px solid red;">
 
-// classes
-// functions
-// commands and global variables
-
-// classes
-
-class Clicker
-{
-	constructor()
-	{
-		this.level = 1
-		this.price = 20;
-
-		this.level_display = document.getElementById("clicker_level");
-		this.price_display = document.getElementById("clicker_price");
-		this.productivity_display = document.getElementById("clicker_productivity");
-
-		this.renew_display();
-	}
-
-	click()
-	{
-		cookies += this.get_production_value();
-		cookies_produced += this.get_production_value();
-		renew_cookies();
-	}
-
-	get_production_value()
-	{
-		return Math.floor(1 + (0.05 * altogether_productivity * (this.level - 1)) + (this.level - 1));
-	}
-
-	improve()
-	{
-		if(cookies >= this.price)
-		{
-			cookies -= this.price;
-			this.level += 1;
-			this.price *= 2;
-			this.renew_display();
-		}
-		else
-		{
-			alert("Not enough cookies!");
-		}
-	}
-
-	renew_display()
-	{
-		this.level_display.innerHTML = this.level;
-		this.price_display.innerHTML = this.price;
-		this.productivity_display.innerHTML = this.get_production_value();
-	}
-}
-
-class Building
-{
-	constructor(name, productivity, price)
-	{
-		this.name = name;
-		this.level = 0;
-		this.price = price;
-		this.productivity = productivity;
-
-		// variables for displaying
-		// definition of areas
-		this.area = document.createElement("span");
-		this.area.id = name;
-
-		this.level_display = document.createElement("span");
-		this.level_display.id = this.name + "_level";
-
-		this.productivity_display = document.createElement("span");
-		this.productivity_display.id = this.name + "_productivity";
-
-		this.price_display = document.createElement("span");
-		this.price_display.id = this.name + "_price";
-
-		this.button = document.createElement("button");
-		this.button.innerHTML = "Improve";
-	        this.button.onclick = this.improve.bind(this);
-
-		// put together
-		this.area.append(document.createTextNode(name + " Level: "));
-		this.area.append(this.level_display);
-		this.area.append(document.createElement("br"));
-
-		this.area.append(document.createTextNode("Cookies per Second: "));
-		this.area.append(this.productivity_display);
-		this.area.append(document.createElement("br"));
-
-		this.area.append(document.createTextNode("Improvement Price: "));
-		this.area.append(this.price_display);
-		this.area.append(document.createElement("br"));
-
-		this.area.append(this.button);
-		this.area.append(document.createElement("br"));
-		this.area.append(document.createElement("br"));
-        
-        	setInterval(this.produce.bind(this), 1000);
-	}
-	
-	get_price() 
-	{
-		return (this.price / 2) * (this.level * this.level + 1) + (this.price / 2) * (this.level + 1)
-	}
-	
-	improve()
-	{
-        	if(cookies >= this.get_price())
-        	{
-        		cookies -= this.get_price();
-        		this.level += 1;
-        		altogether_productivity += this.productivity;
-        		this.renew_display();
-        		clicker.renew_display();
-        	}
-        	else
-        	{
-			alert("Not enough cookies!");
-		}
-	}
-
-	renew_display()
-	{
-		this.level_display.innerHTML = this.level;
-		this.productivity_display.innerHTML = this.get_production_value();
-		this.price_display.innerHTML = this.get_price();
-	}
-
-
-	set_visible()
-	{
-		buildings.append(this.area);
-		this.renew_display();
-	}
-
-	produce()
-	{
-		cookies += this.get_production_value();
-		cookies_produced += this.get_production_value();
-	}
-	
-	get_production_value()
-	{
-		return this.level * this.productivity;
-	}
-}
-
-// functions
-
-function renew_cookies()
-{
-	cookies_display.innerHTML = cookies;
-	cookies_produced_display.innerHTML = cookies_produced;
-    
-	if(this.cookies_produced >= 200 && bakery_enabled == 0) 
-	{
-		bakery.set_visible();
-		bakery_enabled = 1;
-        
-	}
-	if(this.cookies_produced >= 2000 && factory_enabled == 0)
-	{
-		factory.set_visible(); 
-		factory_enabled = 1;
-	}
-	if(this.cookies_produced >= 20000 && cookie_tesla_enabled == 0)
-	{
-		cookie_tesla.set_visible();
-		cookie_tesla_enabled = 1;
-	}
-
-	if(this.cookies_produced >= 200000 && cookie_gigant_enabled == 0) 
-	{
-		cookie_gigant.set_visible(); 
-		cookie_gigant_enabled = 1;
-	}
-}
-
-// commands and (global) variables
-
-var cookies = 0;
-var cookies_produced = 0;
-var altogether_productivity = 0; // counts productivity of buildings except clicker
-
-var cookies_display = document.getElementById("cookies");
-var cookies_produced_display = document.getElementById("cookies_produced");
-
-var buildings = document.getElementById("buildings");
-
-bakery_enabled = 0;
-factory_enabled = 0;
-cookie_tesla_enabled = 0;
-cookie_gigant_enabled = 0;
-
-clicker = new Clicker();
-baker = new Building("Baker", 1, 20);
-baker.set_visible();
-bakery = new Building("Bakery", 10, 200);
-factory = new Building("Factory", 100, 2000);
-cookie_tesla = new Building("Cookie Tesla", 1000, 20000);
-cookie_gigant = new Building("Cookie Gigant", 10000, 200000);
-
-setInterval(renew_cookies, 500);
-
+Cookie Clicker
+Credit: https://github.com/coderdojoindy/cookie-clicker/blob/master/index.html
+<!DOCTYPE html>
 <html>
-	<body>
-		<b>Number of Cookies: <span id="cookies"></span></b><br>
-		Cookies produced: <span id="cookies_produced"></span><br>
-		<button onclick="clicker.click();">Make Cookie!</button><br><br>
+<head>
+<title>Cookie Clicker</title>
+<!--
+Code and graphics copyright Orteil, 2013
+Feel free to alter this code to your liking, but please do not re-host it, do not profit from it and do not present it as your own.
 
-		Clicker Level: <span id="clicker_level"></span><br>
-		Production: <span id="clicker_productivity"></span><br>
-		Improvement Price: <span id="clicker_price"></span><br>
-		<button onclick="clicker.improve();">Improve</button><br><br>
+-TODO :
+	-milk toys
+	-temple building
+	-dungeons
+	-gambling
+	-better tooltips
+	-better prestige
+	-add canvas support
+	-timer bars for golden cookie effects
+	-set event listeners instead of onclick
+	-more zebras
+-->
 
-		<hr><br>
-		<span id="buildings"></span>
+<link rel="shortcut icon" href="img/favicon.ico" />
+<link href="http://fonts.googleapis.com/css?family=Kavoon&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+<link href="style.css?v=1.5028" rel="stylesheet" type="text/css">
 
-		<script src="main.js"></script>
-	</body>
+<script src="base64.js"></script>
+<script src="ajax.js"></script>
+<script src="dungeons.js?v=1.5026"></script>
+<script src="main.js?v=1.5031"></script>
+
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29324474-2']);
+  _gaq.push(['_setDomainName', 'dashnet.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+
+<div id="topBar">
+	<div>
+		<b>Cookie Clicker</b> &copy; <a href="http://orteil.dashnet.org" target="_blank">Orteil</a>, 2013 - hosted by <a href="http://dashnet.org" target="_blank">DashNet</a> | <a href="http://twitter.com/orteil42" target="_blank">twitter</a> | <a href="http://orteil42.tumblr.com" target="_blank">tumblr</a> | Help? Bugs? Ideas? Check out the <a href="http://forum.dashnet.org" target="_blank">forum</a>! | Chat with us on <a href="http://forum.dashnet.org/discussion/277/irc-chat-channel/p1" target="_blank">IRC</a> | Getting a black screen? Try pressing ctrl-F5!
+		<div id="links" style="display:block;position:absolute;right:8px;top:4px;"></div>
+	</div>
+</div>
+
+<div id="game">
+	<div id="javascriptError">
+		<div style="padding:64px 128px;">
+			<div class="title">Oops, looks like the game isn't loading right!</div>
+			<div>Please make sure your javascript is enabled, then refresh.<br>
+			This could also be caused by a problem on our side, in which case - wait a moment, then refresh!</div>
+		</div>
+	</div>
+
+	<div id="backgroundLayers">
+		<div id="backgroundLayer1"></div>
+		<div id="backgroundLayer2"></div>
+	</div>
+	
+	<div id="goldenCookie" class="goldenCookie"></div>
+	<div id="alert"></div>
+	<div id="particles"></div>
+	<div id="versionNumber" class="title"></div>
+	
+	<div id="sectionLeft" class="inset">
+		<div id="cookieShower"></div>
+		<div class="blackGradient"></div>
+		<div class="blackFiller"></div>
+		<div id="sectionLeftInfo"></div>
+		<div id="cookies" class="title"></div>
+		<div id="cookieAnchor">
+			<div id="cookieShine"></div>
+			<div id="cookieCursors"></div>
+			<div id="bigCookie"></div>
+			<div id="cookieNumbers"></div>
+		</div>
+		<div id="milk">
+			<div id="milkLayer1" class="milkLayer"></div>
+			<div id="milkLayer2" class="milkLayer"></div>
+		</div>
+	</div>
+
+	<div class="separatorLeft"></div>
+	<div class="separatorRight"></div>
+		
+	<div id="sectionMiddle" class="inset">
+		<div id="comments" class="inset title">
+			<div id="prefsButton" class="button">Menu</div>
+			<div id="statsButton" class="button">Stats</div>
+			<div id="logButton" class="button" style="font-size:80%;">Updates</div>
+			<div id="commentsText"></div>
+			<div class="separatorBottom"></div>
+		</div>
+		<div id="rows"></div>
+		<div id="menu"></div>
+	</div>
+
+	<div id="sectionRight" class="inset">
+		<div id="store">
+			<div id="storeTitle" class="inset title">Store</div>
+			<div id="upgrades">
+			</div>
+			<div id="products">
+			</div>
+		</div>
+		
+		<div id="support">
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate" style="margin:0px 16px;">
+			<div id="supportComment">Help us make more games!</div>
+			<input type="hidden" name="cmd" value="_s-xclick">
+			<input type="hidden" name="hosted_button_id" value="BBN2WL3TC6QH4">
+			<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal — The safer, easier way to pay online.">
+			<img alt="" border="0" src="https://www.paypalobjects.com/nl_NL/i/scr/pixel.gif" width="1" height="1">
+			</form>			
+		</div>
+	</div>
+	
+	<div id="tooltipAnchor"><div id="tooltip" onMouseOut="Game.tooltip.hide();"></div></div>
+
+</div>
+
+</body>
 </html>
